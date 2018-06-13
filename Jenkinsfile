@@ -52,7 +52,7 @@ node() {
                 color: 'danger',
                 message: "${env.JOB_NAME}:  <${env.RUN_DISPLAY_URL}| Security scan ${env.BUILD_DISPLAY_NAME}> failed (Setup)"
         )
-        System.exit(err)
+        System.exit(1)
     }
 
     try {
@@ -105,7 +105,7 @@ node() {
                 color: 'danger',
                 message: "${env.JOB_NAME}:  <${env.RUN_DISPLAY_URL}| Security scan ${env.BUILD_DISPLAY_NAME}> failed (Scans)"
         )
-        System.exit(err)
+        System.exit(1)
     }
 
     stage("Zap Security Scan (Alert)") {
@@ -117,7 +117,7 @@ node() {
                     color: 'danger',
                     message: "${env.JOB_NAME}:  <${env.RUN_DISPLAY_URL}| Security scan ${env.BUILD_DISPLAY_NAME}> is vulnerable"
             )
-            System.exit(err)
+            System.exit(1)
         }
     }
 
