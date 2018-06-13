@@ -3,7 +3,7 @@
 properties([
         parameters([
                 string(
-                        defaultValue: 'dev',
+                        defaultValue: 'aat',
                         description: 'Environment to test',
                         name: 'ENVIRONMENT'
                 )]),
@@ -14,8 +14,8 @@ properties([
 ])
 
 def env_vars = [
-        'dev': [
-                emGW: 'https://case-api-gateway-web.dev.ccd.reform.hmcts.net/'
+        'aat': [
+                emGW: 'https://ccd-api-gateway-web-aat.service.core-compute-aat.internal'
         ],
         'test': [
                 emGW: 'https://case-api-gateway-web.test.ccd.reform.hmcts.net/'
