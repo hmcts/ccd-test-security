@@ -38,7 +38,7 @@ node() {
         }
 
         stage("Start ZAP") {
-            sh "/usr/share/owasp-zap/zap.sh -daemon -host 127.0.0.1 -port 8090 " +
+            sh "ZAP_2.7.0/zap.sh -daemon -host 127.0.0.1 -port 8090 " +
                     "-config view.mode=attack " +
                     "-config api.disablekey=true " +
                     "-config database.recoverylog=false " +
