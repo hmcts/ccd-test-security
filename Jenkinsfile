@@ -100,6 +100,7 @@ node() {
                         color: 'danger',
                         message: "${env.JOB_NAME}:  <${env.RUN_DISPLAY_URL}| Security scan ${env.BUILD_DISPLAY_NAME}> is vulnerable"
                 )
+                System.exit(err)
             }
         }
 
@@ -110,5 +111,6 @@ node() {
                 color: 'danger',
                 message: "${env.JOB_NAME}:  <${env.RUN_DISPLAY_URL}| Security scan ${env.BUILD_DISPLAY_NAME}> has FAILED"
         )
+        System.exit(err)
     }
 }
