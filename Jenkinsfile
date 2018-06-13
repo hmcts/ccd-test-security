@@ -88,7 +88,7 @@ node() {
                 slackSend(
                         channel: "#ccd-notifications",
                         color: 'danger',
-                        message: "${env.JOB_NAME}:  <${env.BUILD_URL}console| Security scan ${env.BUILD_DISPLAY_NAME}> is vunrable"
+                        message: "${env.JOB_NAME}:  <${env.BUILD_URL}console| Security scan ${env.BUILD_DISPLAY_NAME}> is vulnerable"
                 )
             }
         }
