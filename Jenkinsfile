@@ -27,6 +27,16 @@ def envSpace = env_vars["${env.ENVIRONMENT}"]
 node() {
     try{
 
+        stage("Install ZAP Server") {
+            sh "wget --no-verbose https://github.com/zaproxy/zaproxy/releases/download/2.7.0/ZAP_2.7.0_Crossplatform.zip"
+            sh "rm -rf ZAP_2.7.0"
+            sh "unzip -q ZAP_2.7.0_Crossplatform.zip"
+        }
+
+        stage("Install ZAP CLI") {
+            sh "sudo pip install --upgrade zapcli"
+        }
+
         stage("Start ZAP") {
             sh "/usr/share/owasp-zap/zap.sh -daemon -host 127.0.0.1 -port 8090 " +
                     "-config view.mode=attack " +
