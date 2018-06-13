@@ -98,7 +98,7 @@ node() {
                 slackSend(
                         channel: "#ccd-notifications",
                         color: 'danger',
-                        message: "${env.JOB_NAME}:  <${env.BUILD_URL}console| Security scan ${env.BUILD_DISPLAY_NAME}> is vulnerable"
+                        message: "${env.JOB_NAME}:  <${env.RUN_DISPLAY_URL}| Security scan ${env.BUILD_DISPLAY_NAME}> is vulnerable"
                 )
             }
         }
@@ -108,7 +108,7 @@ node() {
         slackSend(
                 channel: "#ccd-notifications",
                 color: 'danger',
-                message: "${env.JOB_NAME}:  <${env.BUILD_URL}console| Security scan ${env.BUILD_DISPLAY_NAME}> has FAILED"
+                message: "${env.JOB_NAME}:  <${env.RUN_DISPLAY_URL}| Security scan ${env.BUILD_DISPLAY_NAME}> has FAILED"
         )
     }
 }
