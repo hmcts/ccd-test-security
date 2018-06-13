@@ -46,7 +46,16 @@ node() {
             sh 'zap-cli --zap-url http://127.0.0.1 -p 8090 status -t 120'
             sh "zap-cli --zap-url http://127.0.0.1 -p 8090 open-url ${envSpace.emGW}"
         }
+    } catch (Exception err) {
+        slackSend(
+                channel: "#ccd-notifications",
+                color: 'danger',
+                message: "${env.JOB_NAME}:  <${env.RUN_DISPLAY_URL}| Security scan ${env.BUILD_DISPLAY_NAME}> failed (Setup)"
+        )
+        System.exit(err)
+    }
 
+    try {
         stage("Zap Security Scan (active-scan)") {
             try {
                 sh "zap-cli --zap-url http://127.0.0.1 -p 8090 active-scan  --scanners all --recursive ${envSpace.emGW}"
@@ -90,27 +99,26 @@ node() {
                 ]
             }
         }
-
-        stage("Zap Security Scan (Alert)") {
-            try{
-                sh 'zap-cli --zap-url http://127.0.0.1 -p 8090 alerts -l Low'
-            }catch (Exception err){
-                slackSend(
-                        channel: "#ccd-notifications",
-                        color: 'danger',
-                        message: "${env.JOB_NAME}:  <${env.RUN_DISPLAY_URL}| Security scan ${env.BUILD_DISPLAY_NAME}> is vulnerable"
-                )
-                System.exit(err)
-            }
-        }
-
-
     } catch (Exception err) {
         slackSend(
                 channel: "#ccd-notifications",
                 color: 'danger',
-                message: "${env.JOB_NAME}:  <${env.RUN_DISPLAY_URL}| Security scan ${env.BUILD_DISPLAY_NAME}> has FAILED"
+                message: "${env.JOB_NAME}:  <${env.RUN_DISPLAY_URL}| Security scan ${env.BUILD_DISPLAY_NAME}> failed (Scans)"
         )
         System.exit(err)
     }
+
+    stage("Zap Security Scan (Alert)") {
+        try{
+            sh 'zap-cli --zap-url http://127.0.0.1 -p 8090 alerts -l Low'
+        }catch (Exception err){
+            slackSend(
+                    channel: "#ccd-notifications",
+                    color: 'danger',
+                    message: "${env.JOB_NAME}:  <${env.RUN_DISPLAY_URL}| Security scan ${env.BUILD_DISPLAY_NAME}> is vulnerable"
+            )
+            System.exit(err)
+        }
+    }
+
 }
