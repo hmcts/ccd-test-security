@@ -2,8 +2,9 @@
 
 properties([
         parameters([
-                string(
+                choice(
                         defaultValue: 'aat',
+                        choices: 'aat\ndemo\nsandbox\nsaat\nsprod',
                         description: 'Environment to test',
                         name: 'ENVIRONMENT'
                 )]),
