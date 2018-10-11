@@ -14,16 +14,9 @@ properties([
         ])
 ])
 
-def env_vars = [
-        'aat': [
-                emGW: 'https://ccd-api-gateway-web-aat.service.core-compute-aat.internal'
-        ],
-        'test': [
-                emGW: 'https://case-api-gateway-web.test.ccd.reform.hmcts.net/'
-        ]
+def envSpace = [
+        emGW: "https://ccd-api-gateway-web-${env.ENVIRONMENT}.service.core-compute-${env.ENVIRONMENT}.internal"
 ]
-
-def envSpace = env_vars["${env.ENVIRONMENT}"]
 
 node() {
     try{
