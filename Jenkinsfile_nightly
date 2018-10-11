@@ -2,8 +2,9 @@
 
 properties([
         parameters([
-                string(
+                choice(
                         defaultValue: 'aat',
+                        choices: 'aat\ndemo\nsandbox\nsaat\nsprod',
                         description: 'Environment to test',
                         name: 'ENVIRONMENT'
                 )]),
@@ -13,16 +14,9 @@ properties([
         ])
 ])
 
-def env_vars = [
-        'aat': [
-                emGW: 'https://ccd-api-gateway-web-aat.service.core-compute-aat.internal'
-        ],
-        'test': [
-                emGW: 'https://case-api-gateway-web.test.ccd.reform.hmcts.net/'
-        ]
+def envSpace = [
+        emGW: "https://ccd-api-gateway-web-${env.ENVIRONMENT}.service.core-compute-${env.ENVIRONMENT}.internal"
 ]
-
-def envSpace = env_vars["${env.ENVIRONMENT}"]
 
 node() {
     try{
@@ -48,7 +42,7 @@ node() {
         }
     } catch (Exception err) {
         slackSend(
-                channel: "#ccd-notifications",
+                channel: "#ccd-nightly-builds",
                 color: 'danger',
                 message: "${env.JOB_NAME}:  <${env.RUN_DISPLAY_URL}| Security scan ${env.BUILD_DISPLAY_NAME}> failed (Setup)"
         )
@@ -100,7 +94,7 @@ node() {
         }
     } catch (Exception err) {
         slackSend(
-                channel: "#ccd-notifications",
+                channel: "#ccd-nightly-builds",
                 color: 'danger',
                 message: "${env.JOB_NAME}:  <${env.RUN_DISPLAY_URL}| Security scan ${env.BUILD_DISPLAY_NAME}> failed (Scans)"
         )
@@ -111,7 +105,7 @@ node() {
             sh 'zap-cli --zap-url http://127.0.0.1 -p 8090 alerts -l Low'
         }catch (Exception err){
             slackSend(
-                    channel: "#ccd-notifications",
+                    channel: "#ccd-nightly-builds",
                     color: 'danger',
                     message: "${env.JOB_NAME}:  <${env.RUN_DISPLAY_URL}| Security scan ${env.BUILD_DISPLAY_NAME}> is vulnerable"
             )
