@@ -14,9 +14,27 @@ properties([
         ])
 ])
 
-def envSpace = [
-        emGW: "https://ccd-api-gateway-web-${env.ENVIRONMENT}.service.core-compute-${env.ENVIRONMENT}.internal"
+def default_url = "https://ccd-api-gateway-web-${env.ENVIRONMENT}.service.core-compute-${env.ENVIRONMENT}.internal/"
+
+def env_vars = [
+        'aat': [
+                emGW: 'https://www-ccd.nonprod.platform.hmcts.net/'
+        ],
+        'demo': [
+                emGW: 'https://www.ccd.demo.platform.hmcts.net/'
+        ],
+        'sandbox': [
+                emGW: "${default_url}"
+        ],
+        'saat': [
+                emGW: "${default_url}"
+        ],
+        'sprod': [
+                emGW: "${default_url}"
+        ]
 ]
+
+def envSpace = env_vars["${env.ENVIRONMENT}"]
 
 node() {
     try{
